@@ -89,6 +89,23 @@ const handleStripeWebhookEvent = async (event: Stripe.Event) => {
         });
       }
 
+      console.log(
+        ` Payment ${session.payment_status} for appointment ${bookingId}`
+      );
+
+      break;
+    }
+
+    case "checkout.session.expired": {
+      const session = event.data.object as any;
+      console.log(`⚠️ Checkout session expired: ${session.id}`);
+      // Appointment will be cleaned up by cron job
+      break;
+    }
+
+    case "payment_intent.payment_failed": {
+      const paymentIntent = event.data.object as any;
+      console.log(`❌ Payment failed: ${paymentIntent.id}`);
       break;
     }
 

@@ -21,28 +21,31 @@ const createPaymentSession = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const handleStripeWebhookEvent = async (req: Request, res: Response) => {
-  //error here
-  const sig = req.headers["stripe-signature"] as string;
-  const webhookSecret = envVars.WEBHOOK_SECRET_KEY;
+const handleStripeWebhookEvent = catchAsync(
+  async (req: Request, res: Response) => {
+    //error here
+    const sig = req.headers["stripe-signature"] as string;
+    const webhookSecret = envVars.WEBHOOK_SECRET_KEY;
 
-  let event;
-  try {
-    event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
-  } catch (err: any) {
-    console.error("⚠️ Webhook signature verification failed:", err.message);
-    res.status(400).send(`Webhook Error: ${err.message}`);
-    return;
+    let event;
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+      console.error("⚠️ Webhook signature verification succeeded:");
+    } catch (err: any) {
+      console.error("⚠️ Webhook signature verification failed:", err.message);
+      res.status(400).send(`Webhook Error: ${err.message}`);
+      return;
+    }
+    const result = await PaymentServices.handleStripeWebhookEvent(event);
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Webhook req send successfully",
+      data: result,
+    });
   }
-  const result = await PaymentServices.handleStripeWebhookEvent(event);
-
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: "Webhook req send successfully",
-    data: result,
-  });
-};
+);
 export const PaymentController = {
   createPaymentSession,
   handleStripeWebhookEvent,
