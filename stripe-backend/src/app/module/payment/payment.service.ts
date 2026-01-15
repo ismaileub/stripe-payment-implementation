@@ -5,6 +5,7 @@ import AppError from "../../helper/AppError";
 import { StatusCodes } from "http-status-codes";
 import { v4 as uuidv4 } from "uuid";
 import { stripe } from "../../helper/stripe";
+import { envVars } from "../../config/env";
 
 const createPaymentSession = async (bookingId: string) => {
   const booking = await Booking.findById(bookingId);
@@ -52,8 +53,8 @@ const createPaymentSession = async (bookingId: string) => {
       bookingId: booking._id.toString(),
       paymentId: payment._id.toString(),
     },
-    success_url: "https://www.programming-hero.com/",
-    cancel_url: "https://next.programming-hero.com/",
+    success_url: envVars.SUCCESS_URL,
+    cancel_url: envVars.CANCEL_URL,
   });
 
   return { paymentUrl: stripeSession.url };
