@@ -2,22 +2,23 @@ import dotenv from "dotenv";
 import app from "./app";
 import { Server } from "http";
 import mongoose from "mongoose";
+import { envVars } from "./app/config/env";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
-const db_url = process.env.DB_URL as string;
+const PORT = envVars.PORT || 5000;
+// const db_url = process.env.DB_URL as string;
 
 let server: Server;
 
 const startServer = async () => {
   try {
-    await mongoose.connect(db_url);
+    await mongoose.connect(envVars.DB_URL);
 
     console.log("Connected to DB!!");
 
     server = app.listen(PORT, () => {
-      console.log(`Server is listening to port ${PORT}`);
+      console.log(`Server is listening on port ${PORT}`);
     });
   } catch (error) {
     console.log(error);

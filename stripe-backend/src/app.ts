@@ -6,6 +6,7 @@ import cors from "cors";
 import { globalErrorHandler } from "./app/middlewares/globalErrorHandler";
 import { notFound } from "./app/middlewares/notFound";
 import router from "./app/routes";
+import { PaymentController } from "./app/module/payment/payment.controller";
 
 /*
 ❌ Alternative import style (NOT recommended unless esModuleInterop is false)
@@ -20,8 +21,18 @@ But it is more verbose and less readable
 */
 
 const app = express();
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  PaymentController.handleStripeWebhookEvent
+);
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3001",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 

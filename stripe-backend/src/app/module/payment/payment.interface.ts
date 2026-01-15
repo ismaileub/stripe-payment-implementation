@@ -5,5 +5,6 @@ export interface IPayment {
   amount: number;
   transactionId: string;
   status: "PENDING" | "PAID";
+  paymentGatewayData?: unknown;
   createdAt?: Date;
 }

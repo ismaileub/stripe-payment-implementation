@@ -21,6 +21,10 @@ const paymentSchema = new Schema<IPayment>(
       enum: ["PENDING", "PAID"],
       default: "PENDING",
     },
+    paymentGatewayData: {
+      type: Schema.Types.Mixed, //  Stripe session / webhook data
+      default: null,
+    },
   },
   {
     timestamps: true,
