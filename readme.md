@@ -2,6 +2,11 @@
 
 This workspace contains a minimal Stripe Checkout demo with a React frontend and an Express + MongoDB backend.
 
+## Live Links
+
+- Frontend: https://stripe-payment-nine-sigma.vercel.app
+- Backend: https://stripe-payment-implementation.onrender.com
+
 ## Project Structure
 
 ```
@@ -57,6 +62,7 @@ CANCEL_URL=http://localhost:5173/failed
 ```
 
 Notes:
+
 - In development, the backend will default `SUCCESS_URL` and `CANCEL_URL` if they are missing.
 - Use the Stripe CLI to get `WEBHOOK_SECRET_KEY` when testing webhooks.
 
@@ -71,15 +77,15 @@ Backend runs on `http://localhost:5000`.
 ### Backend API
 
 - `POST /api/v1/booking`
-	- Body: `{ name, email, amount }`
-	- Creates a booking in MongoDB.
+  - Body: `{ name, email, amount }`
+  - Creates a booking in MongoDB.
 
 - `POST /api/v1/payment/:bookingId`
-	- Creates a Stripe Checkout session
-	- Response: `{ paymentUrl }`
+  - Creates a Stripe Checkout session
+  - Response: `{ paymentUrl }`
 
 - `POST /webhook`
-	- Stripe webhook endpoint
+  - Stripe webhook endpoint
 
 ### Stripe Webhook (Optional)
 
@@ -128,8 +134,8 @@ Frontend runs on `http://localhost:5173`.
 1. Fill out the form on `/`.
 2. The frontend creates a booking, then requests a Stripe Checkout session.
 3. Stripe redirects to:
-	 - `/success` on successful payment
-	 - `/failed` on cancel or failure
+   - `/success` on successful payment
+   - `/failed` on cancel or failure
 
 ### Test Card
 
@@ -145,4 +151,3 @@ Any future expiry date and any CVC work in test mode.
 
 - CORS is configured for `http://localhost:5173` by default.
 - If you change the frontend port, update the backend CORS origin and `SUCCESS_URL` / `CANCEL_URL`.
-
