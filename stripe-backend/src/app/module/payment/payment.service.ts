@@ -53,8 +53,10 @@ const createPaymentSession = async (bookingId: string) => {
       bookingId: booking._id.toString(),
       paymentId: payment._id.toString(),
     },
-    success_url: envVars.SUCCESS_URL,
-    cancel_url: envVars.CANCEL_URL,
+    // success_url: envVars.SUCCESS_URL,
+    // cancel_url: envVars.CANCEL_URL,
+    success_url: "https://www.programming-hero.com/",
+    cancel_url: "https://next.programming-hero.com/",
   });
 
   return { paymentUrl: stripeSession.url };
@@ -71,7 +73,7 @@ const handleStripeWebhookEvent = async (event: Stripe.Event) => {
       if (!bookingId || !paymentId) {
         throw new AppError(
           StatusCodes.BAD_REQUEST,
-          "Missing bookingId or paymentId in Stripe metadata"
+          "Missing bookingId or paymentId in Stripe metadata",
         );
       }
 
@@ -90,7 +92,7 @@ const handleStripeWebhookEvent = async (event: Stripe.Event) => {
       }
 
       console.log(
-        ` Payment ${session.payment_status} for appointment ${bookingId}`
+        ` Payment ${session.payment_status} for appointment ${bookingId}`,
       );
 
       break;
