@@ -17,8 +17,7 @@ type Booking = {
   updatedAt?: string;
 };
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ?? "http://localhost:5000/api/v1";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 async function apiPost<TResponse>(
   path: string,
@@ -84,6 +83,8 @@ export default function CheckoutPage() {
       if (!paymentRes.data?.paymentUrl) {
         throw new Error("Missing paymentUrl from server");
       }
+
+      console.log(paymentRes);
 
       window.location.href = paymentRes.data.paymentUrl;
     } catch (err) {
