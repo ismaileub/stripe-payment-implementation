@@ -24,14 +24,17 @@ const app = express();
 app.post(
   "/webhook",
   express.raw({ type: "application/json" }),
-  PaymentController.handleStripeWebhookEvent
+  PaymentController.handleStripeWebhookEvent,
 );
 
 app.use(
   cors({
-    origin: "http://localhost:3001",
+    origin: [
+      "http://localhost:5173",
+      "https://stripe-payment-nine-sigma.vercel.app",
+    ],
     credentials: true,
-  })
+  }),
 );
 
 app.use(express.json());

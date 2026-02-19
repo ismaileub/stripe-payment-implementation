@@ -2,6 +2,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const DEFAULT_SUCCESS_URL = "http://localhost:5173/success";
+const DEFAULT_CANCEL_URL = "http://localhost:5173/failed";
+
 interface EnvConfig {
   PORT: string;
   DB_URL: string;
@@ -18,6 +21,12 @@ const loadEnvVariables = (): EnvConfig => {
   if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = "development";
   }
+
+  if (process.env.NODE_ENV === "development") {
+    process.env.SUCCESS_URL = DEFAULT_SUCCESS_URL;
+    process.env.CANCEL_URL = DEFAULT_CANCEL_URL;
+  }
+
   const requiredEnvVariables: string[] = [
     "PORT",
     "DB_URL",
