@@ -53,10 +53,10 @@ const createPaymentSession = async (bookingId: string) => {
       bookingId: booking._id.toString(),
       paymentId: payment._id.toString(),
     },
-    // success_url: envVars.SUCCESS_URL,
-    // cancel_url: envVars.CANCEL_URL,
-    success_url: "https://www.programming-hero.com/",
-    cancel_url: "https://next.programming-hero.com/",
+    success_url: envVars.SUCCESS_URL,
+    cancel_url: envVars.CANCEL_URL,
+    // success_url: "https://www.programming-hero.com/",
+    // cancel_url: "https://next.programming-hero.com/",
   });
 
   return { paymentUrl: stripeSession.url };
